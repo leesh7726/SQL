@@ -1,0 +1,108 @@
+--모든 테이프 번호와 테이프 이름을 테이프 번호순의 오름차순으로 출력하기 위한 SQL문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TAPE_NO, NAME
+FROM dbo.VS_TAPE
+ORDER BY TAPE_NO
+
+-- 특정테이프에 대해서 테이프 번호, 테이프 제목, 배급사를 보고 싶으나 그 테이프 제목이
+-- '영웅’으로 시작된다는 것만 알고 있다. 적절한 SQL 문을 작성하시오. 
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TAPE_NO, NAME, DISTRIBUTOR
+FROM VS_TAPE
+WHERE NAME LIKE '영웅%'
+
+--95년 12월 1일 이전에(12월 1일 제외) 배급된 모든 테이프의 번호와 제목을 조회하는 SQL문을 작성하시오. 
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TAPE_NO, NAME
+FROM VS_TAPE
+WHERE DIST_DATE < '1995-12-01'
+
+--회원 중에서 ‘효성1동’에 사는 회원들을 알고 싶다. 적절한 SQL문으로 작성하시오. 
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT *
+FROM VS_CUSTOMER
+WHERE ADDRESS LIKE '%효성1%'
+
+--회원 중에서 남자들만 알고 싶다.적정한 SQL문으로 작성하시오.(남자는 1 인 경우)
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT *
+FROM VS_CUSTOMER
+WHERE SS_NO LIKE '%-1%'
+
+SELECT *
+FROM VS_CUSTOMER
+WHERE SUBSTRING(SS_NO, 8, 1) = 1
+
+--테이프의 배급사중에 ‘중앙프로덕션’, ‘영진프로덕션’ ,’삼호프로덕션’에 해당하는 테이프들은? 적절한 SQL문으로 작성하시오
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT *
+FROM VS_TAPE
+WHERE DISTRIBUTOR LIKE '중앙%' OR DISTRIBUTOR LIKE '영진%' OR DISTRIBUTOR LIKE '삼호%'
+
+SELECT *
+FROM VS_TAPE
+WHERE DISTRIBUTOR IN ('중앙프로덕션','영진프로덕션','삼호프로덕션')
+
+--회원에서 나이가 제일 많은 상위 3명을 알고 싶은 경우.적절한 SQL문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TOP 3 *
+FROM VS_CUSTOMER
+ORDER BY SS_NO
+
+--테이프 중에서 대여료가 1500원에서 2000원 사이의 비디오테이프는 어떤 것인가? 적절한 SQL문으로 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT *
+FROM VS_TAPE
+WHERE PRICE BETWEEN 1500 AND 2000
+
+
+--테이프 중 ‘엘지프로덕션’에서 배급하지 않는 비디오테이프는 어느것인가? 적절한 SQL문으로 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT *
+FROM VS_TAPE
+WHERE DISTRIBUTOR != '엘지프로덕션'
