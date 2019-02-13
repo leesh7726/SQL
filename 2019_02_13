@@ -106,3 +106,99 @@ SELECT * FROM dbo.VS_TAPE
 SELECT *
 FROM VS_TAPE
 WHERE DISTRIBUTOR != '엘지프로덕션'
+
+--'홍길동' 고객에게 테이프를 대여한 횟수(미반납 포함)을 알고 싶다. 적절한 SQL문을 작성하시오. 
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT COUNT(a.NAME)
+FROM VS_CUSTOMER AS a
+INNER JOIN VS_RENT AS b ON a.CUST_ID = b.CUST_ID
+WHERE b.CUST_ID = 10001
+
+--대여 인기 순위를 구하기 위해 각각의 테이프가 지금까지 몇번 대여 되었는지 보고 싶다.
+--테이프의 번호와 대여 횟수를 조회하는 SQL문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TAPE_NO, COUNT(TAPE_NO)
+FROM VS_RENT
+GROUP BY TAPE_NO
+
+--테이프 종류가 '액션물'인 모든 테이프에 대해서 테이프 번호와 테이프 제목을
+--테이프 제목의 오름차순으로 조회하기 위한 SQL문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT d.TAPE_NO, d.NAME
+FROM VS_TAPE AS d
+INNER JOIN VS_SORT AS c ON d.SORT_CODE = c.CODE
+WHERE d.SORT_CODE = '01'
+ORDER BY d.NAME ASC
+
+
+--테이프 종류가 '액션물'인 테이프의 최소 대여료와 최대 대여료 그리고 평균가격을 알고 싶다.
+--모든 결과가 한 줄에 보이도록 적절한 SQL문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT MIN(PRICE) AS MIN_PRICE, MAX(PRICE) AS MAX_PRICE, AVG(PRICE) AS AVG_PRICE
+FROM VS_TAPE
+WHERE SORT_CODE = 01
+
+--대여 인기 순위를 구하기 위해 각각의 테이프가 지금까지 몇번 대여 되었는지 보고싶다.
+--테이프의 번호와 대여횟수를 조회하는 SQL 문을 작성하시오. 
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT TAPE_NO, COUNT(*) AS RENT_COUNT
+FROM VS_RENT
+GROUP BY TAPE_NO
+ORDER BY RENT_COUNT DESC
+
+
+--반납예정일이 지났으나 아직 반납되지 않은 비디오 테이프의
+--제목, 빌려간 고객의 이름, 전화번호, 주소를 보고 싶다. 적절한 SQL 문을 작성하시오.
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT d.NAME, a.NAME, a.PHONE, a.ADDRESS
+FROM VS_RENT AS b
+INNER JOIN VS_CUSTOMER AS a ON b.CUST_ID = a.CUST_ID
+INNER JOIN VS_TAPE AS d ON b.TAPE_NO = d.TAPE_NO
+WHERE b.RETURN_FLAG = 'N'
+
+--우수 고객을 선정하기 위해 현재까지 대여 횟수가 5번 이상인 고객의 ID와 고객 이름을 보고 싶다. 적절한 SQL문을 작성하시오.  
+
+SELECT * FROM dbo.VS_CUSTOMER
+SELECT * FROM dbo.VS_RENT
+SELECT * FROM dbo.VS_SORT
+SELECT * FROM dbo.VS_TAPE
+
+SELECT COUNT(b.CUST_ID) AS RENT_COUNT, a.NAME
+FROM VS_RENT AS b
+INNER JOIN VS_CUSTOMER AS a ON b.CUST_ID = a.CUST_ID
+GROUP BY a.NAME
+HAVING COUNT(b.CUST_ID) >= 5
