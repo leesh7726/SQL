@@ -1,0 +1,101 @@
+CREATE TABLE tbl_stdlist
+(
+	id INT PRIMARY KEY,
+	familyname VARCHAR(10),
+	name VARCHAR(10)
+)
+GO
+INSERT INTO tbl_stdlist (id, familyname, name)
+						VALUES (1, '홍', '길동')
+INSERT INTO tbl_stdlist (id, familyname, name)
+						VALUES (2, '김', '철수')
+INSERT INTO tbl_stdlist (id, familyname, name)
+						VALUES (3, '백', '도준')
+INSERT INTO tbl_stdlist (id, familyname, name)
+						VALUES (4, '백', '혜린')
+INSERT INTO tbl_stdlist (id, familyname, name)
+						VALUES (5, '이', '선혜')
+
+SELECT * FROM tbl_stdlist
+
+SELECT * FROM tbl_exam
+
+sp_rename 'tbl_exam.[score2]', 'score_english', 'COLUMN'
+
+
+--SUM----------------------------------------------------
+
+SELECT name, (score_korean + score_english) AS sum
+FROM tbl_exam
+
+--AVERAGE-------------------------------------------------
+
+SELECT name, (score_korean + score_english) / 2 AS average
+FROM tbl_exam
+ORDER BY average DESC
+
+--CONDITIONAL--------------------------------------------
+
+SELECT name, score_english
+FROM tbl_exam
+WHERE score_english > 90
+
+GO
+
+SELECT name, score_korean
+FROM tbl_exam
+WHERE name = '길동'
+
+--LOGICAL OPERATOR---------------------------------------
+
+SELECT * FROM tbl_exam
+
+SELECT * FROM tbl_exam
+WHERE ((id % 2) < 1) AND (score_english >= 80)
+
+SELECT * FROM tbl_exam
+WHERE (score_korean >= 90) OR (score_english >= 90)
+
+SELECT * FROM tbl_exam
+WHERE NOT ((score_korean + score_english) > 150)
+
+--BETWEEN------------------------------------------------
+
+SELECT * FROM tbl_exam
+WHERE score_english BETWEEN 90 AND 100
+
+--IS NULL------------------------------------------------
+
+SELECT * FROM tbl_picbook
+WHERE price IS NOT NULL
+
+--CHANGE COLUMN TO NULL'
+
+BEGIN TRAN
+UPDATE tbl_picbook
+SET price = NULL
+WHERE price = 14000
+ROLLBACK
+
+SELECT * FROM tbl_picbook
+WHERE price IS NOT NULL
+
+SELECT title + '은 가격 미정' FROM tbl_picbook
+WHERE price IS NULL
+
+--IN OPERATOR------------------------------------------------
+
+SELECT * FROM tbl_exam
+WHERE id IN (2, 4)
+
+SELECT * FROM tbl_exam
+WHERE id IN (1, 3)
+
+SELECT * FROM tbl_exam
+WHERE id NOT IN (1, 3)
+
+SELECT * FROM tbl_exam
+WHERE (id = 1) OR (id = 3)
+
+SELECT * FROM tbl_exam
+WHERE (id != 2) AND (id != 4)
