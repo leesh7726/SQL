@@ -1,0 +1,73 @@
+SELECT val, CEILING(val) AS result1,
+			FLOOR(val) AS result2
+FROM tbl_snum
+
+-----RAND FUNCTION--------------------------
+
+SELECT RAND()
+SELECT RAND()
+SELECT RAND(7)
+SELECT RAND(7)
+
+-----LEN / LENGTH FUNCTION------------------
+
+SELECT LEN('눈이 내린다')
+SELECT fname, LEN(fname) AS result FROM tbl_stdname
+
+-----SUBSTRING / SUBSTR FUNCTION------------
+
+SELECT lname, SUBSTRING(lname, 2, 2) AS result
+FROM tbl_stdname
+
+-----LTRIM / RTRIM FUNCTION-----------------
+
+SELECT '***' + pname + '***' AS pname,
+		'***' + LTRIM(pname) + '***' AS lefsp,
+		'***' + RTRIM(pname) * '***' AS rightsp
+FROM tbl_pet
+
+-----UPPER / LOWER FUNCTION-----------------
+
+SELECT fname, LOWER(fname) AS SMALL FROM tbl_stdname
+SELECT lname, UPPER(lname) AS BIG FROM tbl_stdname
+
+-----DATE FUNCTION--------------------------
+
+SELECT GETDATE()
+SELECT * FROM tbl_date
+SELECT DAY(sigak) FROM tbl_date
+
+SELECT * FROM tbl_datelist
+SELECT DATEADD(m, 6, date1) FROM tbl_datelist WHERE no = 1
+SELECT DATEDIFF(d, date1, date2) FROM tbl_datelist WHERE no = 2
+SELECT DATEDIFF(d, GETDATE(), '2019-01-01')
+
+-----AGGREGATION FUNCTION--------------------
+
+SELECT AVG(score) AS average, SUM(score) AS total_score, COUNT(name) AS game
+FROM tbl_game
+
+SELECT COUNT(DISTINCT name) AS member FROM tbl_game
+
+SELECT name, MAX(score) AS high, MIN(score) AS low
+FROM tbl_game
+GROUP BY name
+
+SELECT price, COUNT(title) FROM tbl_picbook
+GROUP BY price
+HAVING COUNT(title) = 1
+
+SELECT name, SUM(score) AS over300
+FROM tbl_game
+GROUP BY name
+HAVING sum(score) >= 300
+
+-----CAST FUNCTION-------------------------
+
+CAST(0.245 AS VARCHAR)
+CAST('2000-02-02' AS DATETIME)
+
+SELECT * FROM tbl_schedule
+
+SELECT time AS 문자열, CAST(time AS DATETIME) AS 날짜형식
+FROM tbl_schedule
