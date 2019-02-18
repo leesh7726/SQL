@@ -172,3 +172,25 @@ SELECT team, AVG(point1 + point2) AS point_avg FROM tbl_results GROUP BY team
 SELECT MAX(point_avg) AS max_avg
 	FROM (SELECT AVG(point1 + point2) AS point_avg
 				FROM tbl_results GROUP BY team) AS p_avg
+				
+---Advanced SubQuery (1)-----------------------------------------
+
+SELECT * FROM tbl_advance
+SELECT * FROM tbl_results
+SELECT AVG(point1 + point2) FROM tbl_results
+
+INSERT INTO tbl_advance SELECT * FROM tbl_results
+		WHERE point1 + point2 > (SELECT AVG(point1 + point2) FROM tbl_results)
+
+---Advanced SubQuery(2)------------------------------------------
+
+SELECT * FROM tbl_allowance
+
+UPDATE tbl_allowance SET total = (overtime + travel)
+		WHERE overtime + travel < (SELECT MAX(overtime) FROM tbl_allowance)
+SELECT * FROM tbl_allowance
+
+SELECT AVG(travel) FROM tbl_allowance
+
+DELETE FROM tbl_allowance WHERE travel > (SELECT AVG(travel) FROM tbl_allowance WHERE overtime >= 40000)
+
