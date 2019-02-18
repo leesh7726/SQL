@@ -144,3 +144,31 @@ SELECT * FROM tbl_title
 
 DELETE FROM tbl_title
 SELECT * FROM tbl_title
+
+---SubQuery in WHERE----------------------------------------------
+
+SELECT * FROM tbl_novel
+	WHERE price > (SELECT AVG(price) FROM tbl_novel)
+
+
+---SubQuery in HAVING---------------------------------------------
+
+SELECT * FROM tbl_results
+SELECT AVG(point1) FROM tbl_results
+SELECT MAX(point2) FROM tbl_results
+
+SELECT * FROM tbl_results
+SELECT team, MIN(point2) AS lowest
+FROM tbl_results
+GROUP BY team
+HAVING MAX(point2) >= (SELECT AVG(point1) FROM tbl_results)
+
+---SubQuery in FROM-----------------------------------------------
+
+SELECT * FROM tbl_results
+SELECT team, AVG(point1 + point2) AS point_avg FROM tbl_results GROUP BY team
+
+
+SELECT MAX(point_avg) AS max_avg
+	FROM (SELECT AVG(point1 + point2) AS point_avg
+				FROM tbl_results GROUP BY team) AS p_avg
