@@ -105,3 +105,42 @@ INSERT INTO tbl_allowance VALUES (1, '고길동', 35000, 18000, NULL)
 INSERT INTO tbl_allowance VALUES (2, '김철수', 45000, 23600, NULL)
 INSERT INTO tbl_allowance VALUES (3, '이광수', 56000, 32000, NULL)
 INSERT INTO tbl_allowance VALUES (4, '양미리', 21000, 14500, NULL)
+
+---INSERT(1)-------------------------------------------------------
+
+INSERT INTO tbl_subjects VALUES (1, '길동', 76, 98)
+INSERT INTO tbl_subjects VALUES (2, '철수', 90, 74)
+SELECT * FROM tbl_subjects
+
+INSERT INTO tbl_subjects (id, name, math) VALUES (3, '혜린', 75)
+INSERT INTO tbl_subjects (id, name, english) VALUES (4, '도준', 100)
+SELECT * FROM tbl_subjects
+
+---INSERT(2) / SELECT 문의 결과를 등록하기-------------------------
+
+SELECT * FROM tbl_employee
+
+INSERT INTO tbl_insa (name) SELECT name FROM tbl_employee
+	WHERE section = '인사부'
+
+SELECT * FROM tbl_insa
+
+---UPDATE----------------------------------------------------------
+
+SELECT * FROM tbl_shopping
+
+UPDATE tbl_shopping SET material = '실톱', num = 2
+	WHERE priority = 1
+UPDATE tbl_shopping SET num = 10 WHERE priority >=3
+
+SELECT * FROM tbl_shopping
+
+---DELETE----------------------------------------------------------
+
+SELECT * FROM tbl_title
+
+DELETE FROM tbl_title WHERE code = 2222
+SELECT * FROM tbl_title
+
+DELETE FROM tbl_title
+SELECT * FROM tbl_title
