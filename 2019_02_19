@@ -84,4 +84,106 @@ INSERT INTO tbl_lunch VALUES (2223, '폭찹 정식',  10000)
 INSERT INTO tbl_lunch VALUES (2224, '튀김 우동',  11000)
 INSERT INTO tbl_lunch VALUES (2225, '버섯 스파게티',  13500)
 INSERT INTO tbl_lunch VALUES (2226, '샥스핀 스프',  14000)
-------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+
+----CROSS JOIN => 모든 조합을 찾음
+
+SELECT * FROM tbl_namelist
+SELECT * FROM tbl_grades
+
+SELECT * FROM tbl_namelist CROSS JOIN tbl_grades
+
+----INNER JOIN
+
+SELECT * FROM tbl_namelist
+SELECT * FROM tbl_grades
+
+SELECT * FROM tbl_namelist
+INNER JOIN tbl_grades ON tbl_namelist.no = tbl_grades.no
+
+----OUTER JOIN (1) LEFT JOIN => 오른쪽 테이블에 일치하는 값이 없어도 왼쪽 테이블의 데이터는 모두 추출
+
+SELECT * FROM tbl_namelist
+SELECT * FROM tbl_grades
+
+SELECT * FROM tbl_namelist
+LEFT JOIN tbl_grades ON tbl_namelist.no = tbl_grades.no
+
+----OUTER JOIN (2) RIGHT JOIN => LEFT JOIN과 반대
+
+SELECT * FROM tbl_grades
+SELECT * FROM tbl_namelist
+
+INSERT INTO tbl_grades VALUES (4, 85, 100)
+
+SELECT * FROM tbl_namelist
+RIGHT JOIN tbl_grades ON tbl_namelist.no = tbl_grades.no
+
+----OUTER JOIN (3) FULL JOIN => LEFT JOIN과 RIGHT JOIN을 합친 기능
+
+SELECT * FROM tbl_grades
+SELECT * FROM tbl_namelist
+
+SELECT * FROM tbl_namelist
+FULL JOIN tbl_grades ON tbl_namelist.no = tbl_grades.no
+
+----VIEW 여러 가지 기능
+
+SELECT * FROM tbl_race
+
+CREATE VIEW view_winner AS SELECT * FROM tbl_race WHERE result <=3
+
+
+SELECT * FROM view_winner
+INSERT INTO view_winner VALUES (23, 'team2323', 2)
+UPDATE view_winner SET team = 'team5884' WHERE no = '92'
+DELETE FROM view_winner WHERE no = '10'
+
+DROP VIEW view_winner
+
+----UNION / UNION ALL
+
+SELECT * FROM tbl_club_a
+SELECT * FROM tbl_club_b
+
+SELECT * FROM tbl_club_a WHERE no < 3
+UNION SELECT * FROM tbl_club_b WHERE no <3
+ORDER BY no DESC
+
+----INTERSECT
+
+SELECT lname, fname FROM tbl_club_a
+INTERSECT SELECT sung, irum FROM tbl_club_b
+
+----EXCEPT / MINUS -> Oracle에서는 MINUS 이용
+
+SELECT lname, fname FROM tbl_club_a
+EXCEPT SELECT sung, irum FROM tbl_club_b
+
+----ALL
+
+SELECT * FROM tbl_dinner
+SELECT * FROM tbl_lunch
+
+SELECT * FROM tbl_dinner
+WHERE price < ALL (SELECT price FROM tbl_lunch WHERE menu LIKE '%찹%')
+
+----EXISTS => 서브쿼리에서 구해진 데이터가 하나라도 있으면 TRUE, 아니면 FALSE
+
+SELECT * FROM tbl_dinner
+SELECT * FROM tbl_lunch
+
+SELECT * FROM tbl_lunch
+WHERE EXISTS (SELECT * FROM tbl_dinner WHERE price > 15000)
+
+SELECT * FROM tbl_lunch
+WHERE NOT EXISTS (SELECT * FROM tbl_dinner WHERE price > 15000)
+
+----ANY => 서브쿼리에 의해 구해진 값 중 아무 것과 비교하고 싶을 경우에 사용
+
+SELECT * FROM tbl_dinner
+SELECT * FROM tbl_lunch
+
+SELECT menu, price FROM tbl_dinner WHERE price < ANY
+		(SELECT price FROM tbl_lunch WHERE no <= 2224)
